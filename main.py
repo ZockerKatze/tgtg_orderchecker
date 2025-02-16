@@ -24,7 +24,7 @@ def format_time(iso_time):                                                      
     except ValueError:                                                                                                  ## except there is no timevalue then ve
         return "Unknown Error!"                                                                                         ## return "ue!", instead of actual problem
 
-#fetch order with api
+                                                                                                                        ##fetch order with api
 
 def fetch_orders():                                                                                                     ## define order function
     log_message("[ INFO ]: Fetching orders...")                                                                         ## log
