@@ -5,4 +5,4 @@ if you dont already have your API key && other stuff, run the getapi file and th
   why did i make this like that?
   - To make it safe and not to accidentally push to github!
 
-THIS IS A ADDON OF THE [TGTG-PYTHON](https://github.com/ahivert/tgtg-python) LIBRARY API THING
+THIS IS something i made with THE [TGTG-PYTHON](https://github.com/ahivert/tgtg-python) LIBRARY API THING
