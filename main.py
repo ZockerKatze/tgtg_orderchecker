@@ -12,7 +12,7 @@ from GUI_newimg.funcfile import save_log                                        
 from key import *                                                                                                       ### key for API
 
 def exit_applet():                                                                                                      ## define function to exit the applet
-                                                                                                                        ##OCCOM --> small exit statement
+                                                                                                                        ## OCCOM --> small exit statement
     log_message("[ INFO ]: Exiting Applet")                                                                             ## log exit to log
     exit()                                                                                                              ## exit() to exit app
                                                                                                                         ## format time with local_time(hour:minute)
@@ -24,7 +24,7 @@ def format_time(iso_time):                                                      
     except ValueError:                                                                                                  ## except there is no timevalue then ve
         return "Unknown Error!"                                                                                         ## return "ue!", instead of actual problem
 
-                                                                                                                        ##fetch order with api
+#fetch order with api
 
 def fetch_orders():                                                                                                     ## define order function
     log_message("[ INFO ]: Fetching orders...")                                                                         ## log
@@ -35,7 +35,7 @@ def fetch_orders():                                                             
         orders_list = active_orders.get("orders", [])                                                                   ## put orders into a list
     except Exception as e:                                                                                              ## except a error then exit empty list
         log_message(f"[ ERROR ]: Error fetching active orders: {e}")                                                    ## log the message for error
-        messagebox.showerror("Error", f"Error fetching active orders: {e}")                                             ## show messagebox for error
+        messagebox.showerror("Error", f"Error fetching active orders: {e}")                                ## show messagebox for error
         return []                                                                                                       ## return empty list
 
     orders_data = []                                                                                                    ## init list for orders_data
@@ -46,6 +46,7 @@ def fetch_orders():                                                             
                 "name": order.get("item_name", "Unknown"),                                                              ## get the name of item
                 "store_name": order.get("store_name", "Unknown"),                                                       ## get store name
                 "address": order.get("pickup_location", {}).get("address", {}).get("address_line", "Unknown"),          ## get adress of order
+                "quantity": order.get("quantity", 1),
                 "longitude": order.get("pickup_location", {}).get("location", {}).get("longitude", "Unknown"),          ## alongside long
                 "latitude": order.get("pickup_location", {}).get("location", {}).get("latitude", "Unknown"),            ## with lat
                 "price": order.get("total_price", {}).get("minor_units", 0) / (                                         ## with price
@@ -69,7 +70,7 @@ def display_orders():                                                           
     log_message("[ INFO ]: Displaying orders...")                                                                       ## log message to term with display orders
     orders = fetch_orders()                                                                                             ## orders = fetch_orders() function
     if not orders:                                                                                                      ## if not orders then throw
-        messagebox.showinfo("Info", "No active orders found.")                                                          ## messagebox throw info no active orders
+        messagebox.showinfo("Info", "No active orders found.")                                             ## messagebox throw info no active orders
         log_message("[ ERROR ]: No active orders found.")                                                               ## log the message to term
         return                                                                                                          ## return NOTHING?
 
@@ -78,7 +79,8 @@ def display_orders():                                                           
 
     for order in orders:                                                                                                ## if there is a order in orderslist then do following
         text = (f"{order['name']} - {order['store_name']}\n"                                                            ## ordername == storename
-                f"Address: {order['address']}\n"                                                                        ## adress
+                f"Address: {order['address']}\n"                                                                        ## Adress
+                f"Quantity: {order["quantity"]}\n"                                                                      ## Quantity
                 f"Price: {order['price']} {order['currency']}\n"                                                        ## price
                 f"Payment: {order['payment_method']}\n"                                                                 ## payment method
                 f"Pickup: {order['pickup_window']['start']} to {order['pickup_window']['end']}\n")                      ## pickup window
@@ -106,7 +108,7 @@ def display_orders():                                                           
 
 def log_message(message):                                                                                               ## log message funciton used everywhere in this script
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")                                                            ## use datetime.now which does not work for some reason
-    log_text.insert(tk.END, f"{timestamp} - {message}\n")                                                               ## log text insert the time
+    log_text.insert(tk.END, f"{timestamp} - {message}\n")                                                         ## log text insert the time
     log_text.yview(tk.END)  # Scroll to the bottom                                                                      ## do some tk stuff
 
 
@@ -132,7 +134,7 @@ log_tab = tk.Frame(notebook, bg="#ffffff")                                      
 notebook.add(log_tab, text="Log")                                                                                       ## add text to notebook
 
 def about():                                                                                                            ## define about function
-    messagebox.showinfo("About","PythonTGTG Script for fetching Orders on Desktop")                                     ## little info in a msgbox
+    messagebox.showinfo("About","PythonTGTG Script for fetching Orders on Desktop")                        ## little info in a msgbox
 
 
 menu = Menu(root)                                                                                                       ## define menu as a root for tkinter
@@ -140,10 +142,10 @@ root.config(menu=menu)                                                          
 filemenu = Menu(menu)                                                                                                   ## make filemenu a second var for menu
 menu.add_cascade(label="File",menu=filemenu)                                                                            ## make title for filemenu "file"
 filemenu.add_command(label="Exit",command=exit_applet)                                                                  ## exit app button
-filemenu.add_command(label="Refetch",command=display_orders)
-filemenu.add_command(label="Save Log",command=save_log)
-filemenu.add_separator()
-filemenu.add_command(label="About",command=about)
+filemenu.add_command(label="Refetch",command=display_orders)                                                            ## Refetch with display_order function
+filemenu.add_command(label="Save Log",command=save_log)                                                                 ## save log
+filemenu.add_separator()                                                                                                ## add a seperator
+filemenu.add_command(label="About",command=about)                                                                       ## show about popup
 
                                                                                                                         # Create a frame to hold order data
 frame = tk.Frame(orders_tab, bg="#ffffff")                                                                              ## create background with white color
@@ -157,13 +159,13 @@ log_text.pack(fill="both", expand=True, padx=10, pady=10)                       
                                                                                                                         ## Function to save log to a .log file
 def save_log():                                                                                                         ## define savelog function
     try:                                                                                                                ## do
-        log_content = log_text.get("1.0", tk.END)                                                                       ## Get all the log text
+        log_content = log_text.get("1.0", tk.END)                                                                 ## Get all the log text
         with open("log_file.log", "w") as log_file:                                                                     ## Open the file in write mode
             log_file.write(log_content)                                                                                 ## Save log content to file
         log_message("[ INFO ]: Log file saved successfully.")                                                           ## log message
     except Exception as e:                                                                                              ## except exception as e
         log_message(f"[ ERROR ]: Error saving log file: {e}")                                                           ## throw error
-        messagebox.showerror("Error", f"Error saving log file: {e}")                                                    ## show a msg box
+        messagebox.showerror("Error", f"Error saving log file: {e}")                                       ## show a msg box
 
-root.after(1000, on_startup)                                                                                            ## Automatically fetch orders at startup
+root.after(1000, on_startup)                                                                                        ## Automatically fetch orders at startup
 root.mainloop()                                                                                                         ## do mainloop
