@@ -24,7 +24,7 @@ def format_time(iso_time):                                                      
     except ValueError:                                                                                                  ## except there is no timevalue then ve
         return "Unknown Error!"                                                                                         ## return "ue!", instead of actual problem
 
-#fetch order with api
+                                                                                                                        ## fetch order with api
 
 def fetch_orders():                                                                                                     ## define order function
     log_message("[ INFO ]: Fetching orders...")                                                                         ## log
@@ -35,7 +35,7 @@ def fetch_orders():                                                             
         orders_list = active_orders.get("orders", [])                                                                   ## put orders into a list
     except Exception as e:                                                                                              ## except a error then exit empty list
         log_message(f"[ ERROR ]: Error fetching active orders: {e}")                                                    ## log the message for error
-        messagebox.showerror("Error", f"Error fetching active orders: {e}")                                ## show messagebox for error
+        messagebox.showerror("Error", f"Error fetching active orders: {e}")                                             ## show messagebox for error
         return []                                                                                                       ## return empty list
 
     orders_data = []                                                                                                    ## init list for orders_data
@@ -70,7 +70,7 @@ def display_orders():                                                           
     log_message("[ INFO ]: Displaying orders...")                                                                       ## log message to term with display orders
     orders = fetch_orders()                                                                                             ## orders = fetch_orders() function
     if not orders:                                                                                                      ## if not orders then throw
-        messagebox.showinfo("Info", "No active orders found.")                                             ## messagebox throw info no active orders
+        messagebox.showinfo("Info", "No active orders found.")                                                          ## messagebox throw info no active orders
         log_message("[ ERROR ]: No active orders found.")                                                               ## log the message to term
         return                                                                                                          ## return NOTHING?
 
@@ -108,7 +108,7 @@ def display_orders():                                                           
 
 def log_message(message):                                                                                               ## log message funciton used everywhere in this script
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")                                                            ## use datetime.now which does not work for some reason
-    log_text.insert(tk.END, f"{timestamp} - {message}\n")                                                         ## log text insert the time
+    log_text.insert(tk.END, f"{timestamp} - {message}\n")                                                               ## log text insert the time
     log_text.yview(tk.END)  # Scroll to the bottom                                                                      ## do some tk stuff
 
 
@@ -134,7 +134,7 @@ log_tab = tk.Frame(notebook, bg="#ffffff")                                      
 notebook.add(log_tab, text="Log")                                                                                       ## add text to notebook
 
 def about():                                                                                                            ## define about function
-    messagebox.showinfo("About","PythonTGTG Script for fetching Orders on Desktop")                        ## little info in a msgbox
+    messagebox.showinfo("About","PythonTGTG Script for fetching Orders on Desktop")                                     ## little info in a msgbox
 
 
 menu = Menu(root)                                                                                                       ## define menu as a root for tkinter
@@ -159,13 +159,13 @@ log_text.pack(fill="both", expand=True, padx=10, pady=10)                       
                                                                                                                         ## Function to save log to a .log file
 def save_log():                                                                                                         ## define savelog function
     try:                                                                                                                ## do
-        log_content = log_text.get("1.0", tk.END)                                                                 ## Get all the log text
+        log_content = log_text.get("1.0", tk.END)                                                                       ## Get all the log text
         with open("log_file.log", "w") as log_file:                                                                     ## Open the file in write mode
             log_file.write(log_content)                                                                                 ## Save log content to file
         log_message("[ INFO ]: Log file saved successfully.")                                                           ## log message
     except Exception as e:                                                                                              ## except exception as e
         log_message(f"[ ERROR ]: Error saving log file: {e}")                                                           ## throw error
-        messagebox.showerror("Error", f"Error saving log file: {e}")                                       ## show a msg box
+        messagebox.showerror("Error", f"Error saving log file: {e}")                                                    ## show a msg box
 
 root.after(1000, on_startup)                                                                                        ## Automatically fetch orders at startup
 root.mainloop()                                                                                                         ## do mainloop
